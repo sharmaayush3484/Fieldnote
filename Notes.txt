@@ -1,1 +1,44 @@
+The 4-Layer Automation Architecture
+
+
+1. The Intake & Parser Engine (No Programmer Needed)
+
+Instead of a programmer scripting the logic, you build a parser that reads the client's questionnaire structure.
+• The Interface: Provide a standardized Excel/Word template or a simple drag-and-drop web form builder where the client inputs questions, answer choices, and skip/routing logic.
+• The Automation: Use a backend script (Python/Node.js) or a workflow tool (like Make.com or Zapier) to parse this document.
+• The Survey Generator: The parser connects directly to a survey platform API (such as Decipher, Qualtrics, or SurveyMonkey Enterprise). It instantly generates the survey layout and logic, outputting a live live survey link automatically.
+• Handling Amendments: When the client uploads an updated questionnaire, the system runs a "diff" check, archives the old version, updates the survey via API, and preserves the same survey link without breaking existing data.
+
+2. Dynamic Data Mapping
+
+Healthcare surveys require strict data layouts for analysis.
+• Automated Codebooks: As the survey is generated, the app automatically builds a Data Map (Data Dictionary) matching variable names (e.g., Q1_a) to the question text and response codes.
+• Live Export: Clients can click a button to download the live data map or an SPSS/Excel file structured exactly to that map at any point during fieldwork.
+
+3. Sample Agency Integration & End-Redirects
+
+To seamlessly track respondents coming from third-party panel/sample providers, the app automates query string variables.
+• Inbound Links: The app generates a base URL that accepts standard sample tokens: https://yoursurvey.com[Panelist_ID]&Source=[Agency_Name].
+• Outbound Redirects: The app provides a settings panel where the client pastes the Sample Agency’s status loops:
+	• Complete: https://agency.com
+	• Screenout/Terminate: https://agency.com
+	• Quota Full: https://agency.com
+• The Automation: The system automatically maps the inbound [Panelist_ID] to the outbound XXXX placeholder, redirecting the user to the correct agency page the moment the survey finishes.
+
+4. The Live Reportal (Fieldwork Dashboard)
+
+A client-facing dashboard eliminates the need to manually send daily fieldwork updates.
+• Metrics Tracked: Real-time visibility into Total Starts, Completes, Screenouts (Terminates), Quota Fulls, and Incidence Rate (IR).
+• Breakdowns: Filterable views by Sample Agency, Country/Region, or specific screening criteria.
+• Tech Stack for Reportal: Can be built using embedded BI tools like Streamlit, Retool, Looker Studio, or PowerBI Embedded directly inside your web application.
+
+🛠️ Recommended Tech Stack Options
+
+Depending on your budget and internal dev capabilities, you can build this using two approaches:
+
+Feature	Option A: Low-Code / API-Driven (Fastest)	Option B: Custom Web App (Highest Control)
+Front-End / Portal	Retool / Bubble / Softr	React.js / Vue.js
+Workflow & Logic	Make.com / Zapier	Node.js / Python (Django or Fast API)
+Survey Engine	Decipher API / Qualtrics API	Form.io / SurveyJS (Open-source survey engine)
+Database & Dashboard	Airtable / Supabase + Looker Studio	PostgreSQL + Tailwind / Chart.js
 
